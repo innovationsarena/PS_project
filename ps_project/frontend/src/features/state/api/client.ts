@@ -77,9 +77,9 @@ export async function requestJson<T = unknown>(
   path: string,
   options: RequestOptions = {}
 ): Promise<T> {
-  const { body, auth, tokenOverride, baseUrl, ...rest } = options;
+  const { body, tokenOverride, baseUrl, ...rest } = options;
   const hasBody = body !== undefined;
-  const token = auth ? tokenOverride ?? getAuthToken() : undefined;
+  const token = tokenOverride ?? getAuthToken();
   const url = resolveApiUrl(path, baseUrl);
 
   let res: Response;
@@ -117,8 +117,8 @@ export async function requestForm<T = unknown>(
   formData: FormData,
   options: RequestOptions = {}
 ): Promise<T> {
-  const { auth, tokenOverride, baseUrl, ...rest } = options;
-  const token = auth ? tokenOverride ?? getAuthToken() : undefined;
+  const { tokenOverride, baseUrl, ...rest } = options;
+  const token = tokenOverride ?? getAuthToken();
   const url = resolveApiUrl(path, baseUrl);
 
   let res: Response;
