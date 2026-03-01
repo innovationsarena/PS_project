@@ -5,7 +5,7 @@
 .tmp
 node_modules
 upload
-web/admin
+backend/web/admin
 
 # Binaries for programs and plugins
 textaventyr

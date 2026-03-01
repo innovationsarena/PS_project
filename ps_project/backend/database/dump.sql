@@ -14,9 +14,6 @@ CREATE TABLE `key_value` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 DROP TABLE IF EXISTS adventure;
 CREATE TABLE adventure (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -37,9 +34,6 @@ DROP TRIGGER IF EXISTS adventure_before_update;
 -- Add trigger
 CREATE TRIGGER adventure_before_update BEFORE UPDATE ON adventure
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
-
-
-
 DROP TABLE IF EXISTS adventure_node;
 CREATE TABLE adventure_node (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -64,9 +58,6 @@ DROP TRIGGER IF EXISTS adventure_node_before_update;
 -- Add trigger
 CREATE TRIGGER adventure_node_before_update BEFORE UPDATE ON adventure_node
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
-
-
-
 DROP TABLE IF EXISTS `adventure_link`;
 CREATE TABLE `adventure_link` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -83,9 +74,6 @@ CREATE TABLE `adventure_link` (
   KEY `adventure_id` (`adventure_id`),
   CONSTRAINT `adventure_link_ibfk_1` FOREIGN KEY (`adventure_id`) REFERENCES `adventure` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 DROP TABLE IF EXISTS `adventure_category`;
 CREATE TABLE `adventure_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -98,9 +86,6 @@ CREATE TABLE `adventure_category` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 DROP TABLE IF EXISTS `adventure_list`;
 CREATE TABLE `adventure_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -111,9 +96,6 @@ CREATE TABLE `adventure_list` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 DROP TABLE IF EXISTS `adventure_list_item`;
 CREATE TABLE `adventure_list_item` (
   `list_id` int(11) NOT NULL DEFAULT 0,
@@ -124,17 +106,11 @@ CREATE TABLE `adventure_list_item` (
   CONSTRAINT `adventure_list_item_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `adventure_list` (`id`),
   CONSTRAINT `adventure_list_item_ibfk_2` FOREIGN KEY (`adventure_id`) REFERENCES `adventure` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 -- 2020-01-31 (EA): Adds 'locked' column to adventure table
 ALTER TABLE adventure
 ADD COLUMN locked BOOLEAN
 DEFAULT false
 AFTER view_slug;
-
-
-
 -- 2020-03-09 (EA): Adds two new tables to hold references to curated unsplash-images
 
 DROP TABLE IF EXISTS image_category;
@@ -167,24 +143,15 @@ CREATE TABLE image_item (
 -- 2020-03-11 (EA): Fix table character set and collation to support emoji
 ALTER TABLE image_item CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ALTER TABLE image_category CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-
-
-
 -- 2020-03-11 (EA): Added column for adding node icons
 ALTER TABLE adventure_node
   ADD icon varchar(40) DEFAULT NULL
     AFTER title;
 
 ALTER TABLE adventure_node CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-
-
-
 -- 2020-03-12 (EA): Adds 'image_id' and 'image_layout_type' column to adventure_node table
 ALTER TABLE adventure_node ADD COLUMN image_id INT (11) DEFAULT NULL AFTER image_url;
 ALTER TABLE adventure_node ADD COLUMN image_layout_type VARCHAR(30) DEFAULT NULL AFTER image_id;
-
-
-
 -- 2020-04-08 (EA): Add table for admin users
 
 DROP TABLE IF EXISTS users;
@@ -196,9 +163,6 @@ CREATE TABLE users (
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 -- 2020-05-27 (EA): Add table for storing reports
 
 DROP TABLE IF EXISTS adventure_report;
@@ -213,45 +177,24 @@ CREATE TABLE adventure_report (
   PRIMARY KEY (id),
   KEY (adventure_id),
   CONSTRAINT `adventure_report_advid` FOREIGN KEY (adventure_id) REFERENCES adventure (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
--- 2020-05-29 (EA): Adds 'image_id' column to adventure table
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;-- 2020-05-29 (EA): Adds 'image_id' column to adventure table
 ALTER TABLE adventure ADD COLUMN image_id INT (11) DEFAULT NULL AFTER category_id;
-
-
-
 -- 2020-10-29 (JM): Adds 'props' column to node table
 ALTER TABLE adventure_node ADD COLUMN props VARCHAR (4096) DEFAULT '' AFTER position_y;
-
-
-
 ALTER TABLE `adventure_node` DROP FOREIGN KEY `adventure_node_ibfk_1`;
 ALTER TABLE `adventure_node` ADD CONSTRAINT `adventure_node_ibfk_1` FOREIGN KEY (`adventure_id`) REFERENCES `adventure`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE `adventure_link` DROP FOREIGN KEY `adventure_link_ibfk_1`;
 ALTER TABLE `adventure_link` ADD CONSTRAINT `adventure_link_ibfk_1` FOREIGN KEY (`adventure_id`) REFERENCES `adventure`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
-
-
 ALTER TABLE `adventure` DROP `image_id`;
 ALTER TABLE `adventure` CHANGE `version` `cover_url` VARCHAR(256) DEFAULT NULL;
 ALTER TABLE `adventure` ADD `edit_version` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `adventure` ADD `view_count` INT(11) NULL DEFAULT '0';
-
-
-
 ALTER TABLE adventure ADD COLUMN props VARCHAR (4096) DEFAULT '';
 ALTER TABLE adventure_link ADD COLUMN props VARCHAR (4096) DEFAULT '';
-
-
-
 
 ALTER TABLE users ADD COLUMN updated_at timestamp DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE users ADD COLUMN name VARCHAR (128) DEFAULT '';
 ALTER TABLE users ADD COLUMN role INT DEFAULT 1;
-
-
-
 DROP TABLE IF EXISTS `user_adventure`;
 
 CREATE TABLE `user_adventure` (
@@ -261,14 +204,8 @@ CREATE TABLE `user_adventure` (
   CONSTRAINT `user_adventure_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `user_adventure_ibfk_2` FOREIGN KEY (`adventure_id`) REFERENCES `adventure` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 ALTER TABLE `adventure_list_item` DROP `published_at`;
 ALTER TABLE `adventure_list_item` ADD `ordinal` INT(11) NULL DEFAULT '0';
-
-
-
 DROP TABLE IF EXISTS `adventure_log`;
 
 CREATE TABLE `adventure_log` (
@@ -281,13 +218,7 @@ CREATE TABLE `adventure_log` (
   KEY `adventure_id` (`adventure_id`),
   CONSTRAINT `adventure_log_ibfk_1` FOREIGN KEY (`adventure_id`) REFERENCES `adventure` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 ALTER TABLE `adventure_node` CHANGE `content` `content` VARCHAR(10000) DEFAULT NULL;
-
-
-
 INSERT INTO `adventure` (`id`, `category_id`, `slug`, `view_slug`, `cover_url`, `title`, `description`, `created_at`, `updated_at`)
 VALUES
   (2,5,'hldz49','5u4skr','','Ett hysteriskt äventyr','Detta är en kort beskrivning av ett äventyr.','2019-03-11 10:26:40','0000-00-00 00:00:00'),
@@ -384,9 +315,6 @@ VALUES
   (1521,1,'lt5mhz','3t5qee','','The strange world ','A beginning for you...','2019-08-12 13:40:55','2019-08-12 14:15:22'),
   (1526,8,'q3sen6','ndo7pm','','Nytt äventyr','Fest','2019-08-12 14:47:16','2019-08-12 14:47:46'),
   (1535,2,'oygkhj','ft2870','','Nytt äventyr','Btilblökl','2019-08-12 17:34:43','2019-08-12 17:34:54');
-
-
-
 INSERT INTO `adventure_node` (`id`, `node_id`, `adventure_id`, `title`, `content`, `image_url`, `node_type`, `created_at`, `updated_at`, `position_x`, `position_y`)
 VALUES
   (3,0,2,'Start','',NULL,'root','2019-03-11 10:26:40','0000-00-00 00:00:00',-24,-261),
@@ -2065,9 +1993,6 @@ VALUES
   (17121,0,1535,'Start','',NULL,'root','2019-08-12 17:34:43','0000-00-00 00:00:00',345,100),
   (17122,1,1535,'Vänster','',NULL,'default','2019-08-12 17:34:43','0000-00-00 00:00:00',144,383),
   (17123,2,1535,'Höger','',NULL,'default','2019-08-12 17:34:43','0000-00-00 00:00:00',546,383);
-
-
-
 INSERT INTO `adventure_link` (`id`, `link_id`, `adventure_id`, `source_node_id`, `target_node_id`, `source_link_title`, `target_link_title`, `link_type`, `created_at`, `updated_at`)
 VALUES
   (1,0,2,0,1,'','','bidirectional','2019-03-11 10:26:40','0000-00-00 00:00:00'),
@@ -4232,9 +4157,6 @@ VALUES
   (15876,1,1526,0,2,NULL,NULL,'bidirectional','2019-08-12 14:47:16','0000-00-00 00:00:00'),
   (15893,0,1535,0,1,NULL,NULL,'bidirectional','2019-08-12 17:34:43','0000-00-00 00:00:00'),
   (15894,1,1535,0,2,NULL,NULL,'bidirectional','2019-08-12 17:34:43','0000-00-00 00:00:00');
-
-
-
 INSERT INTO `adventure_category` (`id`, `sort_order`, `title`, `description`, `icon`, `image`, `created_at`, `updated_at`)
 VALUES
   (1,0,'- Ej kategoriserad -','Ingen kategori tilldelad','tag',NULL,'2019-03-11 10:26:27','0000-00-00 00:00:00'),
@@ -4246,27 +4168,16 @@ VALUES
   (7,6,'Skräck','','crow',NULL,'2019-03-11 10:26:27','0000-00-00 00:00:00'),
   (8,7,'Thriller','','surprise',NULL,'2019-03-11 10:26:27','0000-00-00 00:00:00'),
   (9,8,'Projekt PS','','secret',NULL,'2021-03-18 16:41:27','0000-00-00 00:00:00');
-
-
-
 INSERT INTO `adventure_list` (`id`, `title`, `description`, `created_at`, `updated_at`)
 VALUES
   (1,'front','Äventyr som listas på startsidan','2019-03-11 13:46:18','0000-00-00 00:00:00'),
   (2,'archive','Äventyr som listas i arkivet','2019-03-11 13:46:18','0000-00-00 00:00:00');
-
-
-
 INSERT INTO `adventure_list_item` (`list_id`, `adventure_id`, `ordinal`)
 VALUES
   (1,15,1),
   (1,307,2),
   (1,481,3);
 
-
-
-
 INSERT INTO users (username, password) VALUES
 ("johanm", "$2a$14$A4b4oi97qLe8RzGNXH7vCOo9zJZKbQnExzlgAVzxO2n6xIDgHP95W"), /* alfabeta */
 ("novakb", "$2a$14$Zfgu9By1qyvQKqPdjMWtaecVWudQNRkPA.1QEsLQIumkUUPT85f5G"); /* gammadelta */
-
-

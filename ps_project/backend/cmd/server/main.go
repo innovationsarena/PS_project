@@ -22,6 +22,8 @@ func main() {
 		log.Fatal("Error while retrieving configuration:", err)
 	}
 
+	fmt.Println(config)
+
 	// Create storage
 	store, err := sqlstore.NewStore(config.dbusername, config.dbpassword, config.dbhost, config.dbport, config.dbname)
 	if err != nil {

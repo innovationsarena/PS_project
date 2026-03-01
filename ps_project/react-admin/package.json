@@ -21,7 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "react-scripts build && mv build ../web/admin",
-    "local": "react-scripts build && powershell rm -Force -Recurse -ErrorAction SilentlyContinue ../web/admin; mv -Force -ErrorAction SilentlyContinue build ../web/admin",
+    "local": "react-scripts build && powershell rm -Force -Recurse -ErrorAction SilentlyContinue ../backend/web/admin; mv -Force -ErrorAction SilentlyContinue build ../backend/web/admin",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "volta": {
+    "node": "14.21.3"
   }
 }
