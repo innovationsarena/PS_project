@@ -26,7 +26,10 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: .
+      dockerfile: ./backend/Dockerfile
+      args:
+        ADMIN_NODE_VERSION: ${ADMIN_NODE_VERSION:-14}
     env_file:
       - ./.env
       - ./.env.local
@@ -39,7 +42,6 @@ services:
       db2:
         condition: service_healthy
     volumes:
-      - ./backend:/app
       - ./backend/upload:/app/upload
       - ./.env:/app/.env:ro
       - ./.env.local:/app/.env.local:ro
