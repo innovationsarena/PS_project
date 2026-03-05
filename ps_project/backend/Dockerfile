@@ -12,7 +12,6 @@ WORKDIR /app
 RUN apt-get update && apt-get install -yq
 COPY ./backend/ ./
 COPY --from=admin-build /admin/build/ /opt/admin-build/
-RUN rm -rf ./web/admin && mkdir -p ./web/admin && cp -a /opt/admin-build/. ./web/admin/
 COPY ./backend/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
