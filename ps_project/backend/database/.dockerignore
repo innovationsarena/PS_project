@@ -1,3 +1,5 @@
 *.sql
+!migrations/*.sql
+!seeds/*.sql
 .dockerignore
 Dockerfile
