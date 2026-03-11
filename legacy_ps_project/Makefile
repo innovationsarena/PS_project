@@ -4,7 +4,7 @@ PATCH_VERSION=5
 
 ENV_LOCAL_FILE=.env.local
 ENV_DOCKER_FILE=.env
-ENV_LOCAL_DEV_FILE=.env.development.local
+ENV_LOCAL_DEV_FILE=.env.makefile
 
 include $(ENV_LOCAL_FILE) $(ENV_DOCKER_FILE) $(ENV_LOCAL_DEV_FILE)
 
