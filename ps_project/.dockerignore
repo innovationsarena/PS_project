@@ -3,3 +3,4 @@
 !backend/**
 !react-admin/
 !react-admin/**
+!.env

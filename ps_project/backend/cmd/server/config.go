@@ -49,7 +49,7 @@ func NewConfiguration() (*Config, error) {
 		// ..to "GoDocker", then run with .env file configured for Docker
 		if strings.EqualFold(serverrunner, "GoDocker") {
 			if err := godotenv.Load(".env"); err != nil {
-				return nil, errors.New("No .env file found")
+				fmt.Println("No .env file found, using existing environment variables")
 			}
 		}
 	}
