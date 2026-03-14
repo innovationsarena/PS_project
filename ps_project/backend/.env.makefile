@@ -9,3 +9,5 @@ TEMP_DIR=.tmp
 MAKEFILE=go
 MAKEFILE_REPOSITORY_NAME=makepowerfile
 MAKEFILE_REPOSITORY_URL=https://github.com/aramean/makepowerfile.git
+APP_DB_DIR=database
+APP_DB_DUMP_FILE=dump.sql
