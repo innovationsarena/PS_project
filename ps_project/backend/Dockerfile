@@ -1,6 +1,8 @@
 ARG ADMIN_NODE_VERSION=14
  
 FROM node:${ADMIN_NODE_VERSION}-alpine AS admin-build
+ARG REACT_APP_HOST_API_PORT
+ENV REACT_APP_HOST_API_PORT=$REACT_APP_HOST_API_PORT
 WORKDIR /admin
 COPY ./react-admin/package*.json ./
 RUN npm i
